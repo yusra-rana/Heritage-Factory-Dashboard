@@ -26,32 +26,7 @@ A Full Stack Manufacturing Management Dashboard built with **Node.js**, **Expres
 - JWT
 - bcrypt
 
-## 🚀 Installation
 
-```bash
-npm install
-npm start
-```
-
-Open:
-
-```
-http://localhost:4000
-```
-
-## 🔑 Login Credentials
-
-Username:
-
-```
-admin
-```
-
-Password:
-
-```
-admin123
-```
 
 ## 📁 Project Structure
 
