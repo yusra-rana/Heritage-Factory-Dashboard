@@ -1,0 +1,90 @@
+// Lightweight file-based data store.
+// Good enough for a small internal dashboard; swap for a real database
+// (Postgres/MySQL/Mongo) later without changing the route handlers much,
+// since everything goes through the functions in this file.
+
+const fs = require("fs");
+const path = require("path");
+const bcrypt = require("bcryptjs");
+
+const DATA_FILE = path.join(__dirname, "data.json");
+
+function seedData() {
+    const passwordHash = bcrypt.hashSync("admin123", 10);
+
+    return {
+        users: [
+            { id: 1, username: "admin", passwordHash, name: "Factory Manager", role: "Administrator" }
+        ],
+        nextOrderId: 1005,
+        orders: [
+            { id: 1001, customer: "ABC Builders", product: "Red Bricks", quantity: 20000, status: "Completed" },
+            { id: 1002, customer: "City Construction", product: "Grey Bricks", quantity: 15000, status: "Pending" },
+            { id: 1003, customer: "Metro Housing", product: "Clay Bricks", quantity: 12500, status: "Processing" },
+            { id: 1004, customer: "Prime Developers", product: "Concrete Blocks", quantity: 8500, status: "Completed" }
+        ],
+        employees: [
+            { id: 1, name: "Ahmed Ali", role: "Kiln Supervisor", department: "Production", status: "Active" },
+            { id: 2, name: "Fatima Khan", role: "Quality Inspector", department: "Production", status: "Active" },
+            { id: 3, name: "Bilal Ahmed", role: "Machine Operator", department: "Maintenance", status: "On Leave" },
+            { id: 4, name: "Ayesha Malik", role: "Dispatch Coordinator", department: "Logistics", status: "Active" }
+        ],
+        inventory: [
+            { id: 1, item: "Red Bricks", quantity: 120000, unit: "pcs" },
+            { id: 2, item: "Grey Bricks", quantity: 50000, unit: "pcs" },
+            { id: 3, item: "Clay Bricks", quantity: 28000, unit: "pcs" },
+            { id: 4, item: "Concrete Blocks", quantity: 18500, unit: "pcs" }
+        ],
+        suppliers: [
+            { id: 1, name: "Heritage Clay Ltd.", material: "Raw Clay", contact: "021-3456789" },
+            { id: 2, name: "Rawal Cement Suppliers", material: "Cement", contact: "021-2345678" },
+            { id: 3, name: "Capital Sand Traders", material: "Sand", contact: "021-8765432" },
+            { id: 4, name: "Steel Equipment Co.", material: "Machine Parts", contact: "021-9988776" }
+        ],
+        machines: [
+            { id: 1, name: "Machine A", status: "Running" },
+            { id: 2, name: "Machine B", status: "Maintenance" },
+            { id: 3, name: "Machine C", status: "Running" },
+            { id: 4, name: "Machine D", status: "Offline" }
+        ],
+        stats: {
+            todayProduction: 48250,
+            monthlySales: 3250000
+        },
+        productionChart: {
+            labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+            data: [42000, 44500, 46800, 45200, 48900, 48250]
+        },
+        salesChart: {
+            labels: ["Red Bricks", "Grey Bricks", "Clay Bricks", "Concrete Blocks"],
+            data: [45, 25, 20, 10]
+        },
+        notifications: [
+            "✅ Order #1001 has been delivered.",
+            "📦 Inventory updated successfully.",
+            "⚠ Machine B requires maintenance.",
+            "👷 2 new employees joined today.",
+            "🚚 Supplier shipment arriving tomorrow."
+        ]
+    };
+}
+
+function load() {
+    if (!fs.existsSync(DATA_FILE)) {
+        const seeded = seedData();
+        fs.writeFileSync(DATA_FILE, JSON.stringify(seeded, null, 2));
+        return seeded;
+    }
+    return JSON.parse(fs.readFileSync(DATA_FILE, "utf-8"));
+}
+
+let db = load();
+
+function save() {
+    fs.writeFileSync(DATA_FILE, JSON.stringify(db, null, 2));
+}
+
+module.exports = {
+    get: () => db,
+    save
+};

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | Heritage Factory Dashboard</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/login.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body class="login-body">
+
+    <div class="login-wrap">
+
+        <div class="login-card">
+
+            <div class="logo">
+                <h2>🏭 Heritage</h2>
+                <p>Factory Dashboard</p>
+            </div>
+
+            <h1>Welcome back</h1>
+            <p class="subtitle">Sign in to manage production, orders and inventory.</p>
+
+            <form id="loginForm" novalidate>
+
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" autocomplete="username" required>
+
+                <label for="password">Password</label>
+                <div class="password-field">
+                    <input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+                    <button type="button" id="togglePassword" aria-label="Show password">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+
+                <p id="loginError" class="error-message"></p>
+
+                <button type="submit" class="btn-primary" id="loginSubmit">Sign In</button>
+
+            </form>
+
+            <p class="hint">Demo credentials — username: <strong>admin</strong>, password: <strong>admin123</strong></p>
+
+        </div>
+
+    </div>
+
+    <script src="js/login.js"></script>
+</body>
+</html>

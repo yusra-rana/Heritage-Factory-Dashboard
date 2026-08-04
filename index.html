@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Heritage Factory Dashboard</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- ================= Sidebar ================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <h2>🏭 Heritage</h2>
+            <p>Factory Dashboard</p>
+        </div>
+
+        <ul class="menu" id="sidebarMenu">
+            <li class="active" data-view="dashboard"><a href="#dashboard"><i class="fas fa-house"></i> Dashboard</a></li>
+            <li data-view="production"><a href="#production"><i class="fas fa-industry"></i> Production</a></li>
+            <li data-view="inventory"><a href="#inventory"><i class="fas fa-boxes-stacked"></i> Inventory</a></li>
+            <li data-view="employees"><a href="#employees"><i class="fas fa-users"></i> Employees</a></li>
+            <li data-view="orders"><a href="#orders"><i class="fas fa-cart-shopping"></i> Orders</a></li>
+            <li data-view="suppliers"><a href="#suppliers"><i class="fas fa-truck"></i> Suppliers</a></li>
+            <li data-view="customers"><a href="#customers"><i class="fas fa-user-group"></i> Customers</a></li>
+            <li data-view="reports"><a href="#reports"><i class="fas fa-chart-line"></i> Reports</a></li>
+            <li><a href="#" id="logoutLink"><i class="fas fa-right-from-bracket"></i> Log Out</a></li>
+        </ul>
+
+    </aside>
+
+    <!-- ================= Main Content ================= -->
+
+    <main class="main-content">
+
+        <header>
+
+            <button id="menuToggle" class="menu-toggle" aria-label="Toggle sidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <div class="welcome">
+                <h1 id="greeting">Welcome Back!</h1>
+                <p>Heritage Brick Factory Management Dashboard</p>
+                <p id="currentDateTime"></p>
+            </div>
+
+            <div class="top-right">
+                <button id="themeToggle" class="theme-toggle">
+                    <i class="fas fa-moon"></i><span>Dark Mode</span>
+                </button>
+                <button class="notification-btn" aria-label="Notifications" id="notificationBtn">
+                    <i class="fas fa-bell"></i>
+                </button>
+                <div class="profile">
+                    <div class="avatar"><i class="fas fa-user"></i></div>
+                    <div>
+                        <h4 id="profileName">Factory Manager</h4>
+                        <span id="profileRole">Administrator</span>
+                    </div>
+                </div>
+            </div>
+
+        </header>
+
+        <!-- ================= Dashboard View ================= -->
+
+        <section class="view active" data-view="dashboard">
+
+            <section class="cards">
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-users"></i></div>
+                    <div class="card-info">
+                        <h3>Total Employees</h3>
+                        <h2 id="totalEmployees">—</h2>
+                        <p>Active staff</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-industry"></i></div>
+                    <div class="card-info">
+                        <h3>Today's Production</h3>
+                        <h2 id="todayProduction">—</h2>
+                        <p>Bricks Produced</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-boxes-stacked"></i></div>
+                    <div class="card-info">
+                        <h3>Inventory</h3>
+                        <h2 id="inventory">—</h2>
+                        <p>Bricks Available</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="card-info">
+                        <h3>Monthly Sales</h3>
+                        <h2 id="monthlySales">—</h2>
+                        <p>Current Revenue</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="charts">
+                <div class="chart-box">
+                    <div class="section-title"><h2>Weekly Production</h2></div>
+                    <canvas id="productionChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <div class="section-title"><h2>Sales Overview</h2></div>
+                    <canvas id="salesChart"></canvas>
+                </div>
+            </section>
+
+            <section class="overview">
+                <div class="overview-card">
+                    <h3>Machine Status</h3>
+                    <ul id="machineStatusList"></ul>
+                </div>
+                <div class="overview-card">
+                    <h3>Production Summary</h3>
+                    <ul id="productionSummaryList"></ul>
+                </div>
+            </section>
+
+            <section class="bottom-section">
+                <div class="orders">
+                    <div class="section-title"><h2>Recent Orders</h2></div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr><th>Order ID</th><th>Customer</th><th>Product</th><th>Quantity</th><th>Status</th></tr>
+                            </thead>
+                            <tbody id="recentOrdersBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="right-panel">
+                    <div class="notifications">
+                        <div class="section-title"><h2>Notifications</h2></div>
+                        <ul id="notificationsList"></ul>
+                    </div>
+                    <div class="suppliers">
+                        <div class="section-title"><h2>Top Suppliers</h2></div>
+                        <ul id="suppliersMiniList"></ul>
+                    </div>
+                </div>
+            </section>
+
+        </section>
+
+        <!-- ================= Production View ================= -->
+
+        <section class="view" data-view="production">
+            <div class="view-header"><h1>Production</h1></div>
+            <div class="panel">
+                <div class="chart-box" style="box-shadow:none; padding:0; height:320px;">
+                    <canvas id="productionChartFull"></canvas>
+                </div>
+            </div>
+            <br>
+            <div class="panel">
+                <table>
+                    <thead><tr><th>Product</th><th>Quantity on Hand</th></tr></thead>
+                    <tbody id="productionSummaryBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ================= Inventory View ================= -->
+
+        <section class="view" data-view="inventory">
+            <div class="view-header"><h1>Inventory</h1></div>
+            <div class="panel">
+                <table>
+                    <thead><tr><th>Item</th><th>Quantity</th><th>Unit</th></tr></thead>
+                    <tbody id="inventoryBody"><tr><td colspan="3" class="loading-state">Loading…</td></tr></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ================= Employees View ================= -->
+
+        <section class="view" data-view="employees">
+            <div class="view-header"><h1>Employees</h1></div>
+            <div class="panel">
+                <table>
+                    <thead><tr><th>Name</th><th>Role</th><th>Department</th><th>Status</th></tr></thead>
+                    <tbody id="employeesBody"><tr><td colspan="4" class="loading-state">Loading…</td></tr></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ================= Orders View (full CRUD) ================= -->
+
+        <section class="view" data-view="orders">
+            <div class="view-header">
+                <h1>Orders</h1>
+                <button class="btn-add" id="addOrderBtn"><i class="fas fa-plus"></i> Add Order</button>
+            </div>
+            <div class="panel">
+                <input type="text" id="searchInput" placeholder="Search orders...">
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Order ID</th><th>Customer</th><th>Product</th><th>Quantity</th><th>Status</th><th></th></tr>
+                        </thead>
+                        <tbody id="ordersTableBody"><tr><td colspan="6" class="loading-state">Loading…</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= Suppliers View ================= -->
+
+        <section class="view" data-view="suppliers">
+            <div class="view-header"><h1>Suppliers</h1></div>
+            <div class="panel">
+                <table>
+                    <thead><tr><th>Name</th><th>Material</th><th>Contact</th></tr></thead>
+                    <tbody id="suppliersBody"><tr><td colspan="3" class="loading-state">Loading…</td></tr></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ================= Customers View ================= -->
+
+        <section class="view" data-view="customers">
+            <div class="view-header"><h1>Customers</h1></div>
+            <div class="panel">
+                <div class="empty-state">Customer management isn't built yet — coming in a future update.</div>
+            </div>
+        </section>
+
+        <!-- ================= Reports View ================= -->
+
+        <section class="view" data-view="reports">
+            <div class="view-header"><h1>Reports</h1></div>
+            <div class="panel">
+                <div class="empty-state">Report generation isn't built yet — coming in a future update.</div>
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2026 Heritage Factory Dashboard | Designed &amp; Developed by Yusra Rana</p>
+        </footer>
+
+    </main>
+
+</div>
+
+<!-- ================= Order Modal ================= -->
+
+<div class="modal-overlay" id="orderModalOverlay">
+    <div class="modal">
+        <h2 id="orderModalTitle">Add Order</h2>
+        <form id="orderForm">
+            <input type="hidden" id="orderId">
+
+            <label for="orderCustomer">Customer</label>
+            <input type="text" id="orderCustomer" required>
+
+            <label for="orderProduct">Product</label>
+            <input type="text" id="orderProduct" required>
+
+            <label for="orderQuantity">Quantity</label>
+            <input type="number" id="orderQuantity" min="1" required>
+
+            <label for="orderStatus">Status</label>
+            <select id="orderStatus">
+                <option>Pending</option>
+                <option>Processing</option>
+                <option>Completed</option>
+            </select>
+
+            <p class="error-message" id="orderFormError"></p>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-secondary" id="cancelOrderBtn">Cancel</button>
+                <button type="submit" class="btn-primary">Save Order</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/api.js"></script>
+<script src="js/script.js"></script>
+
+</body>
+</html>
